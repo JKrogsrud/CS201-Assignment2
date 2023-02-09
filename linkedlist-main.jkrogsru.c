@@ -2,6 +2,8 @@
 // Created by Jared Krogsrud on 2/8/2023.
 //
 
+#include "linkedlist.jkrogsru.h"
+
 /*
  * main will open a file for which the name is specified on
  * command line; read a line from the file, check that the
@@ -13,7 +15,8 @@
  * Print an error message if an input line does not have correct format.
  *
  */
-int main()
+
+int main(int argc, char *argv[])
 {
 
 }
