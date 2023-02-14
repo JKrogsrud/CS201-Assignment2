@@ -67,3 +67,44 @@ int insertEntry(StudentRecord **list, char *name, int id)
     return 0;
 }
 
+int deleteEntry(StudentRecord **list, int id)
+{
+    // Look through the list until either we get NULL or the id we need
+
+    StudentRecord *curr = *list;
+
+    while (curr->next != NULL && curr->next->id != id)
+    {
+        *curr = *curr->next;
+    }
+
+    // This stops if either
+    /*
+     * 1) The next record is NULL
+     *      - This case we should return 8
+     * 2) The next record is not NULL and whose id is the one we are searching for
+     *      - This case we need to link curr to the record after curr->next
+     *      This could happen in two ways:
+     *          -curr.next.next is NULL:
+     *              - We just set curr.next to NULL, return 0
+     *          -curr.next is not NULL
+     *              - We set curr.next to curr.next.next
+     */
+    if (curr->next == NULL)
+    {
+        return 8;
+    }
+    else
+    {
+        if (curr->next->next == NULL)
+        {
+            curr->next = NULL;
+            return 0;
+        }
+        else
+        {
+            curr->next = curr->next->next;
+            return 0;
+        }
+    }
+}
