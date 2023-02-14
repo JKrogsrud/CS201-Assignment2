@@ -69,6 +69,8 @@ int insertEntry(StudentRecord **list, char *name, int id)
 
 int deleteEntry(StudentRecord **list, int id)
 {
+    // First Check if the first entry is the id we need
+
     // Look through the list until either we get NULL or the id we need
 
     StudentRecord *curr = *list;
