@@ -69,11 +69,16 @@ int insertEntry(StudentRecord **list, char *name, int id)
 
 int deleteEntry(StudentRecord **list, int id)
 {
-    // First Check if the first entry is the id we need
-
     // Look through the list until either we get NULL or the id we need
 
     StudentRecord *curr = *list;
+
+    // First check the first entry is not the one to delete
+    if (curr->id == id)
+    {
+        // set list to the next item in list
+        *list = curr->next;
+    }
 
     while (curr->next != NULL && curr->next->id != id)
     {
