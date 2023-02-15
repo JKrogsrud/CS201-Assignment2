@@ -31,7 +31,8 @@ int insertEntry(StudentRecord **list, char *name, int id)
         return 0;
     }
 
-    StudentRecord *curr = *list;
+    StudentRecord *curr;
+    curr = *list;
 
     // Check if we have an error right off the bat
     if (curr->id == newEntry->id)
@@ -52,17 +53,28 @@ int insertEntry(StudentRecord **list, char *name, int id)
     // Find the appropriate spot
     while ( curr->next != NULL && curr->next->id < newEntry->id)
     {
-        *curr = *curr->next;
-        if (curr->next->id == newEntry->id)
+        curr = curr->next;
+        if (curr->next != NULL && curr->next->id == newEntry->id)
         {
             printf("ERROR: Trying to enter a duplicate id.\n");
             return 8;
         }
     }
 
-    newEntry->next = curr->next;
-    curr->next = newEntry;
-    *list = curr;
+    // The above ran until one of the following was true:
+    // 1) next is NULL
+    // 2) next.id > newEntry.id
+
+    // 1) just place the next entry as the last entry
+    if (curr->next == NULL)
+    {
+        curr->next = newEntry;
+    }
+    else
+    {
+        newEntry->next = curr->next;
+        curr->next = newEntry;
+    }
 
     return 0;
 }
@@ -78,11 +90,12 @@ int deleteEntry(StudentRecord **list, int id)
     {
         // set list to the next item in list
         *list = curr->next;
+        return 0;
     }
 
     while (curr->next != NULL && curr->next->id != id)
     {
-        *curr = *curr->next;
+        curr = curr->next;
     }
 
     // This stops if either
@@ -114,4 +127,56 @@ int deleteEntry(StudentRecord **list, int id)
             return 0;
         }
     }
+}
+
+int modifyEntry(StudentRecord *list, char *name, int id)
+{
+    // Look for the given id value
+    StudentRecord *curr = list;
+
+    while (curr != NULL)
+    {
+        if (curr->id == id)
+        {
+            strcpy(curr->name, name);
+            return 0;
+        }
+        curr = curr->next;
+    }
+    return 8;
+}
+
+int findEntry(StudentRecord *list, char *name, int id)
+{
+    StudentRecord  *curr = list;
+    while (curr != NULL)
+    {
+        if (curr->id == id)
+        {
+            strcpy(name, curr->name);
+            return 0;
+        }
+        curr = curr->next;
+    }
+    return 8;
+}
+
+int printList(StudentRecord *list)
+{
+    StudentRecord *curr = list;
+
+    if (list == NULL)
+    {
+        printf("(list is empty)\n");
+    }
+    else
+    {
+        while (curr != NULL)
+        {
+            printf("|%s|%d", curr->name, curr->id);
+            curr = curr->next;
+        }
+    }
+    printf("\n");
+    return 0;
 }
