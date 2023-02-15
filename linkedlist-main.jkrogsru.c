@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         return 8;
     }
 
-    printf("reading file %s", argv[1]);
+    printf("reading file %s\n", argv[1]);
 
     lineNum = 0;
     line = fgets(buffer, BUFFLEN, fileIn);
@@ -61,8 +61,7 @@ int main(int argc, char *argv[])
         {
             printf("Line %d error: not enough values; or incorrect format\n", lineNum);
         }
-
-        if (strcmp(code, "A") == 0)
+        else if (strcmp(code, "A") == 0)
         {
             retval = insertEntry(&list, name, id);
             if (retval == 0)
@@ -72,7 +71,6 @@ int main(int argc, char *argv[])
             else
             {
                 printf("Error inserting |%s|%d\n", name, id);
-
             }
         }
         else if (strcmp(code, "M") == 0)
@@ -85,7 +83,6 @@ int main(int argc, char *argv[])
             else
             {
                 printf("Error modifying %d\n", id);
-
             }
 
         }
@@ -103,7 +100,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            printf("Instruction code not found");
+            printf("Instruction code not found\n");
         }
 
         // printf("code:%s, name:%s, id: %d\n", code, name, id);
