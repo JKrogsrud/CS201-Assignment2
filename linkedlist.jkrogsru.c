@@ -14,6 +14,12 @@ int insertEntry(StudentRecord **list, char *name, int id)
     // Check for NULL name or non-positive id
     if (name == NULL || id <= 0)
     {
+        printf("error: cannot insert a record with name NULL");
+        return 8;
+    }
+    else if (id <= 0)
+    {
+        printf("error: cannot insert a record with negative id");
         return 8;
     }
     else
@@ -37,7 +43,7 @@ int insertEntry(StudentRecord **list, char *name, int id)
     // Check if we have an error right off the bat
     if (curr->id == newEntry->id)
     {
-        printf("ERROR: Trying to enter a duplicate id.");
+        printf("Error: cannot insert %s %d; id already present");
         return 8;
     }
 
@@ -67,6 +73,7 @@ int insertEntry(StudentRecord **list, char *name, int id)
     }
     else if (curr->next->id == newEntry->id)
     {
+        printf("Error: cannot insert %s %d; id already present");
         return 8;
     }
     else
@@ -111,6 +118,7 @@ int deleteEntry(StudentRecord **list, int id)
      */
     if (curr->next == NULL)
     {
+        printf("Error in delete: id %d not found in list", id);
         return 8;
     }
     else
@@ -142,6 +150,8 @@ int modifyEntry(StudentRecord *list, char *name, int id)
         }
         curr = curr->next;
     }
+
+    printf("Error in modify: id %d not found in the list", id);
     return 8;
 }
 
@@ -172,10 +182,9 @@ int printList(StudentRecord *list)
     {
         while (curr != NULL)
         {
-            printf("|%s|%d", curr->name, curr->id);
+            printf("|%s|%d\n", curr->name, curr->id);
             curr = curr->next;
         }
     }
-    printf("\n");
     return 0;
 }

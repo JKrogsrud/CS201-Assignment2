@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "linkedlist.jkrogsru.h"
 
 /*
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
 {
     // For file reading and scanning
     char buffer[BUFFLEN];
-    char code;
+    char code[64];
     char name[64];
     int id;
     int lineNum;
@@ -47,35 +48,69 @@ int main(int argc, char *argv[])
         return 8;
     }
 
+    printf("reading file %s", argv[1]);
+
     lineNum = 0;
-
     line = fgets(buffer, BUFFLEN, fileIn);
-
     while (line != NULL)
     {
         lineNum += 1;
-        numVarsFilled = sscanf(buffer, "%c, %[A-Za-z.' -], %d,", code, name, &id);
+        numVarsFilled = sscanf(buffer, "%[A-Za-z.' -], %[A-Za-z.' -], %d,", code, name, &id);
 
-        if (code == 'A')
+        if (numVarsFilled != 3)
+        {
+            printf("Line %d error: not enough values; or incorrect format\n", lineNum);
+        }
+
+        if (strcmp(code, "A") == 0)
         {
             retval = insertEntry(&list, name, id);
+            if (retval == 0)
+            {
+                printf("Inserted: |%s|%d\n", name, id);
+            }
+            else
+            {
+                printf("Error inserting |%s|%d\n", name, id);
+
+            }
         }
-        else if (code == 'M')
+        else if (strcmp(code, "M") == 0)
         {
             retval = modifyEntry(list, name, id);
+            if (retval == 0)
+            {
+                printf("modified: %d\n", id);
+            }
+            else
+            {
+                printf("Error modifying %d\n", id);
+
+            }
+
         }
-        else if (code == 'D')
+        else if (strcmp(code, "D") == 0)
         {
-            retval = deleteEntry(list, id);
+            retval = deleteEntry(&list, id);
+            if (retval == 0)
+            {
+                printf("deleted: %d\n", id);
+            }
+            else
+            {
+                printf("Error deleting %d\n", id);
+            }
         }
         else
         {
-            printf("Code not found.");
+            printf("Instruction code not found");
         }
+
+        // printf("code:%s, name:%s, id: %d\n", code, name, id);
 
         line = fgets(buffer, BUFFLEN, fileIn);
 
     }
-    printList(list);
+    // printList(list);
 }
 
