@@ -51,24 +51,23 @@ int insertEntry(StudentRecord **list, char *name, int id)
     }
 
     // Find the appropriate spot
-    while ( curr->next != NULL && curr->next->id < newEntry->id)
+    while (curr->next != NULL && curr->next->id < newEntry->id)
     {
         curr = curr->next;
-        if (curr->next != NULL && curr->next->id == newEntry->id)
-        {
-            printf("ERROR: Trying to enter a duplicate id.\n");
-            return 8;
-        }
     }
 
     // The above ran until one of the following was true:
+    // 0) next id == newEntry.id
     // 1) next is NULL
     // 2) next.id > newEntry.id
 
-    // 1) just place the next entry as the last entry
     if (curr->next == NULL)
     {
         curr->next = newEntry;
+    }
+    else if (curr->next->id == newEntry->id)
+    {
+        return 8;
     }
     else
     {
